@@ -1,12 +1,14 @@
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { fade, withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import { withRouter, Link } from 'react-router-dom';
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
     grow: {
         flexGrow: 1,
     },
@@ -45,6 +47,7 @@ const useStyles = makeStyles(theme => ({
     },
     inputRoot: {
         color: 'inherit',
+        width: '100%',
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 7),
@@ -66,33 +69,54 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
-}));
+});
 
-export default function PrimarySearchAppBar() {
-    const classes = useStyles();
+class PrimarySearchAppBar extends Component {
+    constructor(props) {
+        super(props);
+        this.doSearch = this.doSearch.bind(this);
+    }
 
-    return (
-        <div className={classes.grow}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        The MovieDB
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
+    doSearch = (event) => {
+        if (event.key !== 'Enter') return false;
+        this.props.history.push(`/search?query=${event.currentTarget.value}`);
+        event.currentTarget.value = '';
+    };
+
+    render () {
+        const { classes } = this.props;
+        return (
+            <div className={classes.grow}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Link to="/" style={{textDecoration: 'none', color: '#fff'}}>
+                            <Typography className={classes.title} variant="h6" noWrap>
+                                The MovieDB
+                            </Typography>
+                        </Link>
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search for a movie…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                                onKeyDown={this.doSearch}
+                            />
                         </div>
-                        <InputBase
-                            placeholder="Search for a movie…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+                    </Toolbar>
+                </AppBar>
+            </div>
+        )
+    }
 }
+
+PrimarySearchAppBar.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(withRouter(PrimarySearchAppBar));
