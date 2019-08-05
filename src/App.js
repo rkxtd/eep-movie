@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { AppBar, MovieCard } from './components';
+import HomePage from './containers/HomePage';
+import AppBar from './components/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,9 +23,9 @@ function App() {
             <React.Fragment>
                 <CssBaseline />
                 <Container>
-                    <Paper className={classes.root}>
+                    <Paper className={classes.root} style={{minWidth: 380}}>
                         <div>
-                            <Route exact path="/" component={MovieList} />
+                            <Route exact path="/" component={HomePage} />
                             <Route path="/search" component={Search} />
                         </div>
                     </Paper>
@@ -32,18 +33,6 @@ function App() {
             </React.Fragment>
         </Router>
     </div>
-  );
-}
-
-function MovieList() {
-  return (
-      <div style={{display: 'flex', justifyContent: 'flex-start', alignContent:'stretch', flexWrap: 'wrap'}}>
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-      </div>
   );
 }
 

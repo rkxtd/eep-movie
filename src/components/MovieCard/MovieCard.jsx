@@ -8,8 +8,8 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     card: {
-        maxWidth: 345,
-        minWidth: 230,
+        width: 320,
+        minWidth: 270,
         margin: '10px',
     },
     media: {
@@ -17,24 +17,24 @@ const useStyles = makeStyles({
     },
 });
 
-export default function MediaCard() {
+export default function MediaCard(props) {
     const classes = useStyles();
-
+    console.log(props);
     return (
         <Card className={classes.card}>
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
-                    image="https://images.pexels.com/photos/433301/pexels-photo-433301.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                    title="Train"
+                    image={props.backdrop_path}
+                    title={props.title}
                 />
                 <CardContent>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Typography variant="h5" style={{textAlign: 'left'}}>Одного разу у Лас Вегасі</Typography>
-                        <Typography style={{ border: 'solid 1px', padding: '2px 5px', fontSize: 12, borderRadius: 3, height: 24}}>1997</Typography>
+                        <Typography variant="h5" style={{textAlign: 'left',  marginRight: '10px',}}>{props.title}</Typography>
+                        <Typography style={{ border: 'solid 1px', padding: '2px 5px', fontSize: 12, borderRadius: 3, height: 24}}>{new Date(props.release_date).getFullYear()}</Typography>
                     </div>
                     <Typography color="textSecondary" component="p" style={{textAlign: 'left'}}>
-                        Drama
+                        {props.genres[0].name}
                     </Typography>
                 </CardContent>
             </CardActionArea>
