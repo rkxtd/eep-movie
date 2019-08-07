@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.3.0",
     "@material-ui/icons": "^4.2.1",
+    "http-server": "^0.11.1",
     "random-text-meme": "^1.1.9",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -13,6 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:prod": " npm run build && pm2 stop eep-movies && pm2 start http-server --name eep-movies -- -p 8080 -d false ./build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
