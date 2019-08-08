@@ -13,8 +13,8 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:prod": " npm run build && pm2 stop eep-movies && pm2 start http-server --name eep-movies -- -p 8080 -d false ./build",
+    "start:dev": "react-scripts start",
+    "start": " npm run build && pm2 stop eep-movies && pm2 start http-server --name eep-movies -- -p 8080 -d false ./build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
