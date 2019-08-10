@@ -14,6 +14,11 @@ const server = restify.createServer();
 serverHealth.exposeHealthEndpoint(server);
 server.get('/api/get-mdb-api-key', respond);
 
-server.listen(3000, function() {
+server.get('/*', restify.plugins.serveStatic({
+    directory: './dist/public/',
+    default: 'index.html'
+}));
+
+server.listen(8080, function() {
     console.log('%s listening at %s', server.name, server.url);
 });
