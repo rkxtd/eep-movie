@@ -11,6 +11,21 @@ import Paper from '@material-ui/core/Paper';
 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            mdbApiKey: "",
+        };
+
+        // fetch('/api/get-mdb-api-key')
+        //     .then(function(response) {
+        //         return response.json();
+        //     })
+        //     .then(function({ MDB_API_KEY }) {
+        //         this.setState({ mdbApiKey: MDB_API_KEY });
+        //     });
+    }
+
     render () {
         return (
             <div className="App">
