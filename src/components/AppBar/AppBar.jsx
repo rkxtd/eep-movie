@@ -87,7 +87,7 @@ class PrimarySearchAppBar extends Component {
         const { classes } = this.props;
         return (
             <div className={classes.grow}>
-                <AppBar position="static">
+                <AppBar position="fixed">
                     <Toolbar>
                         <Link to="/" style={{textDecoration: 'none', color: '#fff'}}>
                             <Typography className={classes.title} variant="h6" noWrap>
