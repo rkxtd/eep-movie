@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import MovieList from '../../components/MovieList';
 import randomTextMeme from 'random-text-meme';
+import { apiDiscover } from '../../helpers/api';
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -9,14 +10,18 @@ export default class HomePage extends Component {
             movies: [],
             loading: true
         };
-
-        fetch('https://api.themoviedb.org/3/discover/movie?api_key=&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
-            .then(response => response.json())
-            .then( ({results: movies}) => this.setState({ movies, loading: false }));
     }
+
+    componentDidMount() {
+        setTimeout(async () => {
+            const { results: movies } = await (await apiDiscover()).json();
+            this.setState({ movies, loading: false })
+        }, 100)
+
+    }
+
     render() {
         const { movies, loading } = this.state;
-        console.log(movies);
         return (
             <div style={{minWidth: 360}}>
                 { loading && <p>Loading... {randomTextMeme.getEmoji('flip-table')} </p> }
