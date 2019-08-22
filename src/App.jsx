@@ -34,14 +34,7 @@ class App extends Component {
                     <React.Fragment>
                         <CssBaseline />
                         <Container maxWidth="xl">
-                            <Typography component="div" style={{ backgroundColor: '#fff', height: '100%' }}>
-                                <AppBar position="static" color="default" style={{marginTop: 60}}>
-                                    <Toolbar>
-                                        <Typography variant="h6" color="inherit">
-                                            Results: 19
-                                        </Typography>
-                                    </Toolbar>
-                                </AppBar>
+                            <Typography component="div" style={{ backgroundColor: '#fff', height: '100%', minHeight: '90vh' }}>
                                 <Route exact path="/" component={HomePage} />
                                 <Route path="/search" component={SearchPage} />
                                 <Route path="/movie/:id" component={MoviePage} />

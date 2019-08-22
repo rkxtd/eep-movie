@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import MovieList from '../../components/MovieList';
 import randomTextMeme from 'random-text-meme';
-import { apiDiscover } from '../../helpers/api';
+import { apiDiscover, apiGenres } from '../../helpers/api';
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -15,6 +15,8 @@ export default class HomePage extends Component {
     componentDidMount() {
         setTimeout(async () => {
             const { results: movies } = await (await apiDiscover()).json();
+            const { results: genres } = await (await apiGenres()).json();
+
             this.setState({ movies, loading: false })
         }, 100)
 
