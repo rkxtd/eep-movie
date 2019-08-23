@@ -8,7 +8,7 @@ import ListSort from "../ListSort";
 export default function MovieList({movies, genres, sortBy, resultsCount, handleSortChange }) {
   return (
     <React.Fragment>
-      <AppBar position="static" color="default" style={{marginTop: 60}}>
+      <AppBar position="static" color="default">
         <Toolbar style={{display: 'flex', justifyContent: 'space-between', alignContent: 'stretch', flexWrap: 'wrap'}}>
           <Typography variant="h6" color="inherit">
             Results: {resultsCount}

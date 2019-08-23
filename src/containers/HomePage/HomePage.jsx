@@ -2,10 +2,7 @@ import React, {Component} from "react";
 import MovieList from '../../components/MovieList';
 import randomTextMeme from 'random-text-meme';
 import {combineLatest} from 'rxjs';
-import {concatMap} from 'rxjs/operators';
-import {apiDiscover, apiGenres} from '../../helpers/api';
 import {ApiKeySource, DiscoverSource, GenreSource} from '../../services/discover';
-import config from "../../config";
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -17,21 +14,17 @@ export default class HomePage extends Component {
       resultsCount: 0,
     };
     this.handleSortChange = this.handleSortChange.bind(this);
-
   }
 
   componentDidMount() {
     const apiKey$ = ApiKeySource();
-    apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
+    apiKey$.subscribe(({ MDB_API_KEY: mdbApiKey }) => combineLatest(
       GenreSource(mdbApiKey),
       DiscoverSource(mdbApiKey)
     ).subscribe(
-      ([{ genres }, { total_pages: resultsCount, results: movies}]) => {
+      ([genres, { resultsCount, movies}]) => {
         this.setState({
-          genres: genres.reduce((acc, {id, name}) => {
-            acc[id] = name;
-            return acc;
-          }, {}),
+            genres,
             resultsCount,
             movies
         })
