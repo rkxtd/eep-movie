@@ -16,23 +16,10 @@ export default class HomePage extends Component {
       resultsCount: 0,
     };
     this.handleSortChange = this.handleSortChange.bind(this);
+    this.loadMoreMovies = this.loadMoreMovies.bind(this);
   }
 
-  componentDidMount() {
-    const apiKey$ = ApiKeySource();
-    apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
-      GenreSource(mdbApiKey),
-      DiscoverSource(mdbApiKey)
-    ).subscribe(
-      ([genres, {resultsCount, movies}]) => {
-        this.setState({
-          mdbApiKey,
-          genres,
-          resultsCount,
-          movies
-        })
-      }));
-  }
+  componentDidMount() {}
 
   handleSortChange(event) {
     const {mdbApiKey} = this.state;
@@ -46,6 +33,24 @@ export default class HomePage extends Component {
       })
   }
 
+  loadMoreMovies() {
+    const {sortBy, page, movies} = this.state;
+    const apiKey$ = ApiKeySource();
+    apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
+      GenreSource(mdbApiKey),
+      DiscoverSource(mdbApiKey, sortBy, page + 1)
+    ).subscribe(
+      ([genres, {resultsCount, movies: moreMovies}]) => {
+      this.setState({
+        resultsCount,
+        movies: [...movies, ...moreMovies],
+        page: page + 1,
+        genres,
+        mdbApiKey,
+      })
+    }))
+  }
+
   render() {
     const {movies, genres, loading, sortBy, resultsCount} = this.state;
     return (
@@ -56,7 +61,8 @@ export default class HomePage extends Component {
           movies={movies}
           genres={genres}
           sortBy={sortBy}
-          handleSortChange={this.handleSortChange}/>
+          handleSortChange={this.handleSortChange}
+          loadMoreMovies={this.loadMoreMovies} />
       </div>
     );
   }

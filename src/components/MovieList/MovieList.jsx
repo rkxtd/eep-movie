@@ -4,8 +4,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import ListSort from "../ListSort";
+import InfiniteScroll from 'react-infinite-scroller';
 
-export default function MovieList({movies, genres, sortBy, resultsCount, handleSortChange }) {
+export default function MovieList({movies, genres, sortBy, resultsCount, handleSortChange, loadMoreMovies }) {
+  const items = movies.map((movie, index) => <MovieCard key={index} {...movie} genres={genres} />);
   return (
     <React.Fragment>
       <AppBar position="static" color="default">
@@ -18,11 +20,15 @@ export default function MovieList({movies, genres, sortBy, resultsCount, handleS
             handleChange={handleSortChange} />
         </Toolbar>
       </AppBar>
-      <div style={{display: 'flex', justifyContent: 'center', alignContent: 'stretch', flexWrap: 'wrap'}}>
-        {movies.map((movie, index) => {
-          return <MovieCard key={index} {...movie} genres={genres} />
-        })}
-      </div>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={loadMoreMovies}
+        hasMore={true}
+        loader={<div className="loader" key={0}>Loading ...</div>}
+        style={{display: 'flex', justifyContent: 'center', alignContent: 'stretch', flexWrap: 'wrap'}}
+      >
+        {items}
+      </InfiniteScroll>
     </React.Fragment>
   );
 }
