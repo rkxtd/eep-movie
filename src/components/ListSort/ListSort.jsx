@@ -18,25 +18,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ListSort() {
+export default function ListSort({ sortBy, handleChange }) {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Sort</InputLabel>
+        <InputLabel htmlFor="sort-native">Sort By</InputLabel>
         <Select
           native
-          value={0}
-          onChange={()=>{}}
+          value={sortBy}
+          onChange={handleChange}
           inputProps={{
             name: 'sort',
-            id: 'age-native-simple',
+            id: 'sort-native',
           }}
         >
           <option value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          <option value={'popularity'}>Popularity</option>
+          <option value={'budget'}>Budget</option>
         </Select>
       </FormControl>
     </div>

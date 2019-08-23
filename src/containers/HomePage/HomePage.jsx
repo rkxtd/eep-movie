@@ -8,8 +8,10 @@ export default class HomePage extends Component {
         super(props);
         this.state = {
             movies: [],
-            loading: true
+            loading: true,
+            sortBy: '',
         };
+        this.handleSortChange = this.handleSortChange.bind(this);
     }
 
     componentDidMount() {
@@ -22,12 +24,23 @@ export default class HomePage extends Component {
 
     }
 
+    handleSortChange(event) {
+        this.setState({
+            'sortBy': event.target.value,
+        });
+
+        console.log(this.state)
+    }
+
     render() {
-        const { movies, loading } = this.state;
+        const { movies, loading, sortBy } = this.state;
         return (
             <div style={{minWidth: 360}}>
                 { loading && <p>Loading... {randomTextMeme.getEmoji('flip-table')} </p> }
-                <MovieList movies={movies}/>
+                <MovieList
+                  movies={movies}
+                  sortBy={sortBy}
+                  handleSortChange={this.handleSortChange} />
             </div>
         );
     }

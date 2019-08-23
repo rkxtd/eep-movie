@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import ListSort from "../ListSort";
 
-export default function MovieList({movies}) {
+export default function MovieList({movies, sortBy, handleSortChange }) {
   return (
     <React.Fragment>
       <AppBar position="static" color="default" style={{marginTop: 60}}>
@@ -13,7 +13,9 @@ export default function MovieList({movies}) {
           <Typography variant="h6" color="inherit">
             Results: 19
           </Typography>
-          <ListSort />
+          <ListSort
+            sortBy={sortBy}
+            handleChange={handleSortChange} />
         </Toolbar>
       </AppBar>
       <div style={{display: 'flex', justifyContent: 'center', alignContent: 'stretch', flexWrap: 'wrap'}}>
