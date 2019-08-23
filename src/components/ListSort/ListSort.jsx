@@ -34,11 +34,12 @@ export default function ListSort({ sortBy, handleChange }) {
             id: 'sort-native',
           }}
         >
-          <option value="" />
           <option value={'popularity.desc'}>Most Popular</option>
           <option value={'popularity.asc'}>Less Popular</option>
-          <option value={'release_date.desc'}>Newer</option>
-          <option value={'release_date.asc'}>Older</option>
+          <option value={'release_date.desc'}>Newest First</option>
+          <option value={'release_date.asc'}>Oldest First</option>
+          <option value={'vote_count.desc'}>Most Voted</option>
+          <option value={'vote_count.asc'}>Less Voted</option>
         </Select>
       </FormControl>
     </div>
