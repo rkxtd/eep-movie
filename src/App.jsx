@@ -15,15 +15,10 @@ import AppBar from '@material-ui/core/AppBar';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            mdbApiKey: "",
-        };
+        this.state = {};
     }
 
     async componentDidMount() {
-        const { MDB_API_KEY: mdbApiKey } = await (await fetch(`${config.apiUrl}/api/get-mdb-api-key`)).json();
-        this.setState({ mdbApiKey });
-        window.mdbApiKey = mdbApiKey;
     }
 
     render () {
