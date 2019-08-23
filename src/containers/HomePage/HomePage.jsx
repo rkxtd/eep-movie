@@ -17,9 +17,12 @@ export default class HomePage extends Component {
     componentDidMount() {
         setTimeout(async () => {
             const { results: movies } = await (await apiDiscover()).json();
-            const { results: genres } = await (await apiGenres()).json();
+            const genres = (await (await apiGenres()).json()).genres.reduce((acc, { id, name }) => {
+                acc[id] = name;
+                return acc;
+            }, {});
 
-            this.setState({ movies, loading: false })
+            this.setState({ movies, genres, loading: false })
         }, 100)
 
     }
@@ -28,17 +31,16 @@ export default class HomePage extends Component {
         this.setState({
             'sortBy': event.target.value,
         });
-
-        console.log(this.state)
     }
 
     render() {
-        const { movies, loading, sortBy } = this.state;
+        const { movies, genres, loading, sortBy } = this.state;
         return (
             <div style={{minWidth: 360}}>
                 { loading && <p>Loading... {randomTextMeme.getEmoji('flip-table')} </p> }
                 <MovieList
                   movies={movies}
+                  genres={genres}
                   sortBy={sortBy}
                   handleSortChange={this.handleSortChange} />
             </div>

@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import ListSort from "../ListSort";
 
-export default function MovieList({movies, sortBy, handleSortChange }) {
+export default function MovieList({movies, genres, sortBy, handleSortChange }) {
   return (
     <React.Fragment>
       <AppBar position="static" color="default" style={{marginTop: 60}}>
@@ -20,7 +20,7 @@ export default function MovieList({movies, sortBy, handleSortChange }) {
       </AppBar>
       <div style={{display: 'flex', justifyContent: 'center', alignContent: 'stretch', flexWrap: 'wrap'}}>
         {movies.map((movie, index) => {
-          return <MovieCard key={index} {...movie} />
+          return <MovieCard key={index} {...movie} genres={genres} />
         })}
       </div>
     </React.Fragment>

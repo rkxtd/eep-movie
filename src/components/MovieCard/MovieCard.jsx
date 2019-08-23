@@ -38,7 +38,7 @@ export default function MediaCard(props) {
                             <Typography style={{ border: 'solid 1px', padding: '2px 5px', fontSize: 12, borderRadius: 3, height: 24}}>{new Date(props.release_date).getFullYear()}</Typography>
                         </div>
                         <Typography color="textSecondary" component="p" style={{textAlign: 'left'}}>
-                            {props.genre_ids.map((genre, index) => <span key={index}>{ genre }{ index < props.genre_ids.length - 1 ? ', ' : '' }</span>)}
+                            {props.genre_ids.map((genre, index) => <span key={index}>{ props.genres[genre] }{ index < props.genre_ids.length - 1 ? ', ' : '' }</span>)}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
