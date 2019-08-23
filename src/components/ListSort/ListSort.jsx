@@ -35,8 +35,10 @@ export default function ListSort({ sortBy, handleChange }) {
           }}
         >
           <option value="" />
-          <option value={'popularity'}>Popularity</option>
-          <option value={'budget'}>Budget</option>
+          <option value={'popularity.desc'}>Most Popular</option>
+          <option value={'popularity.asc'}>Less Popular</option>
+          <option value={'release_date.desc'}>Newer</option>
+          <option value={'release_date.asc'}>Older</option>
         </Select>
       </FormControl>
     </div>

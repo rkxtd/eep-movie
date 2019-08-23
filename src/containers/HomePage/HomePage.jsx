@@ -8,9 +8,11 @@ export default class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mdbApiKey: '',
       movies: [],
       loading: true,
-      sortBy: '',
+      sortBy: 'popularity.desc',
+      page: 0,
       resultsCount: 0,
     };
     this.handleSortChange = this.handleSortChange.bind(this);
@@ -18,23 +20,30 @@ export default class HomePage extends Component {
 
   componentDidMount() {
     const apiKey$ = ApiKeySource();
-    apiKey$.subscribe(({ MDB_API_KEY: mdbApiKey }) => combineLatest(
+    apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
       GenreSource(mdbApiKey),
       DiscoverSource(mdbApiKey)
     ).subscribe(
-      ([genres, { resultsCount, movies}]) => {
+      ([genres, {resultsCount, movies}]) => {
         this.setState({
-            genres,
-            resultsCount,
-            movies
+          mdbApiKey,
+          genres,
+          resultsCount,
+          movies
         })
       }));
   }
 
   handleSortChange(event) {
-    this.setState({
-      'sortBy': event.target.value,
-    });
+    const {mdbApiKey} = this.state;
+    const sortBy = event.target.value;
+    this.setState({sortBy});
+    DiscoverSource(mdbApiKey, sortBy).subscribe(({resultsCount, movies}) => {
+        this.setState({
+          resultsCount,
+          movies
+        })
+      })
   }
 
   render() {

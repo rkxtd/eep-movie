@@ -30,7 +30,7 @@ export default function MediaCard(props) {
                 <CardActionArea style={{ position: 'relative'}}>
                     <CardMedia
                         className={classes.media}
-                        image={`https://image.tmdb.org/t/p/w500${props.poster_path}`}
+                        image={props.poster_path}
                         title={props.title} />
                     <CardContent className={classes.content} style={{ position: 'absolute', bottom: 0, background: '#fff', width: '100%' }}>
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>

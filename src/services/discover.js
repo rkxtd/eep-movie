@@ -22,9 +22,16 @@ export const DiscoverSource = (apiKey, sortBy = 'popularity.desc', page = 1) => 
   return decoratedFromFetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=${sortBy}&include_adult=false&include_video=false&page=${page}`)
     .pipe(map(({
                  total_pages: resultsCount,
-                 results: movies,
+                 results,
                  total_pages: pagesCount,
-               }) => ({resultsCount, movies, pagesCount})));
+               }) => ({
+      resultsCount,
+      movies: results.map(movie => ({
+        ...movie,
+        poster_path: movie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+          : `https://as1.ftcdn.net/jpg/01/63/16/64/500_F_163166486_lbs6jKnxWlXEZpSIjRJG4lmque9hrjyT.jpg`})
+      ), pagesCount})));
 }
 
 export const GenreSource = (apiKey) => {
