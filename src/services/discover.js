@@ -21,7 +21,7 @@ const decoratedFromFetch = (url) => {
 export const DiscoverSource = (apiKey, sortBy = 'popularity.desc', page = 1) => {
   return decoratedFromFetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=${sortBy}&include_adult=false&include_video=false&page=${page}`)
     .pipe(map(({
-                 total_pages: resultsCount,
+                 total_results: resultsCount,
                  results,
                  total_pages: pagesCount,
                }) => ({
@@ -43,6 +43,23 @@ export const GenreSource = (apiKey) => {
         return acc;
       }, {}))
     );
+}
+
+export const SearchSource = (apiKey, page = 1) => {
+  return decoratedFromFetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&page=${page}&include_adult=false`)
+    .pipe(map(({
+                 total_results: resultsCount,
+                 results,
+                 total_pages: pagesCount,
+               }) => ({
+      resultsCount,
+      movies: results.map(movie => ({
+        ...movie,
+        release_date: movie.release_date || '1970/01/01 00:00:00',
+        poster_path: movie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+          : `https://as1.ftcdn.net/jpg/01/63/16/64/500_F_163166486_lbs6jKnxWlXEZpSIjRJG4lmque9hrjyT.jpg`})
+      ), pagesCount})));
 }
 
 export const ApiKeySource = () => {

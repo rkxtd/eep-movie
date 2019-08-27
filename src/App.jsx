@@ -8,9 +8,7 @@ import MainAppBar from './components/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import Toolbar from '@material-ui/core/Toolbar';
-import config from './config';
-import AppBar from '@material-ui/core/AppBar';
+// import queryString from 'query-string';
 
 class App extends Component {
     constructor(props) {
@@ -19,6 +17,8 @@ class App extends Component {
     }
 
     async componentDidMount() {
+        // const values = queryString.parse(this.props.location.search)
+        // console.log(values);
     }
 
     render () {

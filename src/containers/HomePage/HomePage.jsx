@@ -3,6 +3,10 @@ import MovieList from '../../components/MovieList';
 import randomTextMeme from 'random-text-meme';
 import {combineLatest} from 'rxjs';
 import {ApiKeySource, DiscoverSource, GenreSource} from '../../services/discover';
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import ListSort from "../../components/ListSort";
+import AppBar from "@material-ui/core/AppBar";
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -25,7 +29,8 @@ export default class HomePage extends Component {
     const {mdbApiKey} = this.state;
     const sortBy = event.target.value;
     this.setState({sortBy});
-    DiscoverSource(mdbApiKey, sortBy).subscribe(({resultsCount, movies}) => {
+    DiscoverSource(mdbApiKey, sortBy)
+      .subscribe(({resultsCount, movies}) => {
         this.setState({
           resultsCount,
           movies
@@ -55,13 +60,21 @@ export default class HomePage extends Component {
     const {movies, genres, loading, sortBy, resultsCount} = this.state;
     return (
       <div style={{minWidth: 360}}>
-        {loading && <p>Loading... {randomTextMeme.getEmoji('flip-table')} </p>}
+
+        <AppBar position="static" color="default">
+          <Toolbar style={{display: 'flex', justifyContent: 'space-between', alignContent: 'stretch', flexWrap: 'wrap'}}>
+            <Typography variant="h6" color="inherit">
+              Results: {resultsCount}
+            </Typography>
+            <ListSort
+              sortBy={sortBy}
+              handleChange={this.handleSortChange} />
+          </Toolbar>
+        </AppBar>
         <MovieList
           resultsCount={resultsCount}
           movies={movies}
           genres={genres}
-          sortBy={sortBy}
-          handleSortChange={this.handleSortChange}
           loadMoreMovies={this.loadMoreMovies} />
       </div>
     );

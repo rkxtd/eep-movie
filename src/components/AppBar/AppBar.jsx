@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { withRouter, Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const styles = theme => ({
     grow: {
@@ -77,8 +80,8 @@ class PrimarySearchAppBar extends Component {
         this.doSearch = this.doSearch.bind(this);
     }
 
-    doSearch = (event) => {
-        if (event.key !== 'Enter') return false;
+    doSearch = (searchType, event) => {
+        if (searchType === 'multi' && event.key !== 'Enter') return false;
         this.props.history.push(`/search?query=${event.currentTarget.value}`);
         event.currentTarget.value = '';
     };
@@ -105,9 +108,14 @@ class PrimarySearchAppBar extends Component {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
-                                onKeyDown={this.doSearch}
+                                onKeyDown={this.doSearch.bind(undefined, 'multi')}
                             />
+
                         </div>
+                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                            <Button onClick={this.doSearch.bind(undefined, 'person')}>Person</Button>
+                            <Button onClick={this.doSearch.bind(undefined, 'movie')}>Movie</Button>
+                        </ButtonGroup>
                     </Toolbar>
                 </AppBar>
             </div>
