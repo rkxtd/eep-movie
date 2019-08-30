@@ -21,11 +21,11 @@ export default class SearchPage extends Component {
   componentDidMount() {}
 
   loadMoreMovies() {
-    const {page, movies} = this.state;
+    const {page, movies, query} = this.state;
     const apiKey$ = ApiKeySource();
     apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
       GenreSource(mdbApiKey),
-      SearchSource(mdbApiKey, page + 1)
+      SearchSource(mdbApiKey, query, page + 1)
     ).subscribe(
       ([genres, {resultsCount, movies: moreMovies}]) => {
         this.setState({

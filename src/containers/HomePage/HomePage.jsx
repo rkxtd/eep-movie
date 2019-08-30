@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import MovieList from '../../components/MovieList';
-import randomTextMeme from 'random-text-meme';
 import {combineLatest} from 'rxjs';
 import {ApiKeySource, DiscoverSource, GenreSource} from '../../services/discover';
 import Toolbar from "@material-ui/core/Toolbar";
@@ -57,7 +56,7 @@ export default class HomePage extends Component {
   }
 
   render() {
-    const {movies, genres, loading, sortBy, resultsCount} = this.state;
+    const {movies, genres, sortBy, resultsCount} = this.state;
     return (
       <div style={{minWidth: 360}}>
 

@@ -45,11 +45,11 @@ export const GenreSource = (apiKey) => {
     );
 }
 
-export const SearchSource = (apiKey, page = 1) => {
-  return decoratedFromFetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&page=${page}&include_adult=false`)
+export const SearchSource = (apiKey, query, page = 1) => {
+  return decoratedFromFetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=en-US&page=${page}&include_adult=false`)
     .pipe(map(({
                  total_results: resultsCount,
-                 results,
+                 results = [],
                  total_pages: pagesCount,
                }) => ({
       resultsCount,
