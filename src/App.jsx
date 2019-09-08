@@ -31,7 +31,7 @@ class App extends Component {
                         <Container maxWidth="xl">
                             <Typography component="div" style={{ backgroundColor: '#fff', height: '100%', minHeight: '90vh' }}>
                                 <Route exact path="/" component={HomePage} />
-                                <Route path="/search" component={SearchPage} />
+                                <Route path="/search/:searchType/:searchTerm" component={SearchPage} />
                                 <Route path="/movie/:id" component={MoviePage} />
                             </Typography>
                         </Container>

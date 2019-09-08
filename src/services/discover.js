@@ -45,8 +45,8 @@ export const GenreSource = (apiKey) => {
     );
 }
 
-export const SearchSource = (apiKey, query, page = 1) => {
-  return decoratedFromFetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=en-US&page=${page}&include_adult=false`)
+export const SearchMovieSource = (apiKey, searchTerm, page = 1) => {
+  return decoratedFromFetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}&language=en-US&page=${page}`)
     .pipe(map(({
                  total_results: resultsCount,
                  results = [],
@@ -59,6 +59,23 @@ export const SearchSource = (apiKey, query, page = 1) => {
         poster_path: movie.poster_path
           ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
           : `https://as1.ftcdn.net/jpg/01/63/16/64/500_F_163166486_lbs6jKnxWlXEZpSIjRJG4lmque9hrjyT.jpg`})
+      ), pagesCount})));
+}
+
+export const SearchPersonSource = (apiKey, searchTerm, page = 1) => {
+  console.log(searchTerm);
+  return decoratedFromFetch(`https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${searchTerm}&language=en-US&page=${page}`)
+    .pipe(map(({
+                 total_results: resultsCount,
+                 results = [],
+                 total_pages: pagesCount,
+               }) => ({
+      resultsCount,
+      movies: results.map(person => ({
+        ...person,
+        profile_path: person.profile_path
+          ? `https://image.tmdb.org/t/p/w500${person.profile_path}`
+          : `https://secondchancetinyhomes.org/wp-content/uploads/2016/09/empty-profile.png`})
       ), pagesCount})));
 }
 

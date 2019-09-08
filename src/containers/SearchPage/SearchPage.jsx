@@ -1,36 +1,70 @@
 import React, {Component} from "react";
 import MovieList from '../../components/MovieList';
+import PersonList from '../../components/PersonList';
 import {combineLatest} from 'rxjs';
-import {ApiKeySource, SearchSource, GenreSource} from '../../services/discover';
+import {ApiKeySource, SearchMovieSource, SearchPersonSource, GenreSource} from '../../services/discover';
 
 export default class SearchPage extends Component {
   constructor(props) {
     super(props);
+    const { match: { params: { searchType, searchTerm }}} = props;
     this.state = {
       mdbApiKey: '',
-      movies: [],
+      results: [],
       loading: true,
       sortBy: 'popularity.desc',
       page: 0,
       resultsCount: 0,
-      query: ''
+      searchTerm,
+      searchType,
     };
     this.loadMoreMovies = this.loadMoreMovies.bind(this);
+    this.loadMorePersons = this.loadMorePersons.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidUpdate(prevProps) {
+    const { match: { params: { searchType: prevSearchType, searchTerm: prevSearchTerm }}} = prevProps;
+    const { match: { params: { searchType, searchTerm }}} = this.props;
+    console.log(searchType, searchTerm);
+    if (prevSearchType !== searchType || prevSearchTerm !== searchTerm) {
+      this.setState({
+        results: [],
+        page: 0,
+        loading: true,
+        resultsCount: 0,
+      })
+    }
+  }
 
   loadMoreMovies() {
-    const {page, movies, query} = this.state;
+    const {page, results, searchTerm} = this.state;
     const apiKey$ = ApiKeySource();
     apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
       GenreSource(mdbApiKey),
-      SearchSource(mdbApiKey, query, page + 1)
+      SearchMovieSource(mdbApiKey, searchTerm, page + 1)
     ).subscribe(
       ([genres, {resultsCount, movies: moreMovies}]) => {
         this.setState({
           resultsCount,
-          movies: [...movies, ...moreMovies],
+          results: [...results, ...moreMovies],
+          page: page + 1,
+          genres,
+          mdbApiKey,
+        })
+      }))
+  }
+
+  loadMorePersons() {
+    const {page, results, searchTerm} = this.state;
+    const apiKey$ = ApiKeySource();
+    apiKey$.subscribe(({MDB_API_KEY: mdbApiKey}) => combineLatest(
+      GenreSource(mdbApiKey),
+      SearchPersonSource(mdbApiKey, searchTerm, page + 1)
+    ).subscribe(
+      ([genres, {resultsCount, movies: moreMovies}]) => {
+        this.setState({
+          resultsCount,
+          results: [...results, ...moreMovies],
           page: page + 1,
           genres,
           mdbApiKey,
@@ -39,16 +73,23 @@ export default class SearchPage extends Component {
   }
 
   render() {
-    const {movies, genres, sortBy, resultsCount} = this.state;
+    const {results, genres, resultsCount, searchType} = this.state;
+    //console.log('Update: ', searchType, results);
     return (
       <div style={{minWidth: 360, marginTop: 70}}>
-        <MovieList
-          resultsCount={resultsCount}
-          movies={movies}
-          genres={genres}
-          sortBy={sortBy}
-          handleSortChange={this.handleSortChange}
-          loadMoreMovies={this.loadMoreMovies} />
+        {searchType === 'movie' &&
+          <MovieList
+            resultsCount={resultsCount}
+            movies={results}
+            genres={genres}
+            loadMoreMovies={this.loadMoreMovies} />
+        }
+        {searchType === 'person' &&
+          <PersonList
+            resultsCount={resultsCount}
+            persons={results}
+            loadMorePersons={this.loadMorePersons} />
+        }
       </div>
     );
   }

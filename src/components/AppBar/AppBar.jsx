@@ -77,12 +77,13 @@ class PrimarySearchAppBar extends Component {
     constructor(props) {
         super(props);
         this.doSearch = this.doSearch.bind(this);
+        this.searchInputRef = React.createRef();
     }
 
     doSearch = (searchType, event) => {
         if (searchType === 'multi' && event.key !== 'Enter') return false;
-        this.props.history.push(`/search?query=${event.currentTarget.value}`);
-        event.currentTarget.value = '';
+        this.props.history.push(`/search/${searchType}/${this.searchInputRef.current.querySelector('input').value}`);
+        //this.searchInputRef.current.value = '';
     };
 
     render () {
@@ -108,6 +109,7 @@ class PrimarySearchAppBar extends Component {
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
                                 onKeyDown={this.doSearch.bind(undefined, 'multi')}
+                                ref={this.searchInputRef}
                             />
 
                         </div>
