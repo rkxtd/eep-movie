@@ -22,18 +22,19 @@ export default class SearchPage extends Component {
     this.loadMorePersons = this.loadMorePersons.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const { match: { params: { searchType: prevSearchType, searchTerm: prevSearchTerm }}} = prevProps;
-    const { match: { params: { searchType, searchTerm }}} = this.props;
-    console.log(searchType, searchTerm);
+  shouldComponentUpdate(nextProps) {
+    const { match: { params: { searchType: prevSearchType, searchTerm: prevSearchTerm }}} = this.props;
+    const { match: { params: { searchType, searchTerm }}} = nextProps;
     if (prevSearchType !== searchType || prevSearchTerm !== searchTerm) {
       this.setState({
         results: [],
         page: 0,
         loading: true,
         resultsCount: 0,
-      })
+      });
+      return false;
     }
+    return true;
   }
 
   loadMoreMovies() {
@@ -43,10 +44,10 @@ export default class SearchPage extends Component {
       GenreSource(mdbApiKey),
       SearchMovieSource(mdbApiKey, searchTerm, page + 1)
     ).subscribe(
-      ([genres, {resultsCount, movies: moreMovies}]) => {
+      ([genres, {resultsCount, movies}]) => {
         this.setState({
           resultsCount,
-          results: [...results, ...moreMovies],
+          results: [...results, ...movies],
           page: page + 1,
           genres,
           mdbApiKey,
@@ -61,10 +62,10 @@ export default class SearchPage extends Component {
       GenreSource(mdbApiKey),
       SearchPersonSource(mdbApiKey, searchTerm, page + 1)
     ).subscribe(
-      ([genres, {resultsCount, movies: moreMovies}]) => {
+      ([genres, {resultsCount, persons}]) => {
         this.setState({
           resultsCount,
-          results: [...results, ...moreMovies],
+          results: [...results, ...persons],
           page: page + 1,
           genres,
           mdbApiKey,
@@ -73,8 +74,9 @@ export default class SearchPage extends Component {
   }
 
   render() {
-    const {results, genres, resultsCount, searchType} = this.state;
-    //console.log('Update: ', searchType, results);
+    const {results, genres, resultsCount } = this.state;
+    const { match: { params: { searchType }}} = this.props;
+    console.log('Update: ', searchType, results);
     return (
       <div style={{minWidth: 360, marginTop: 70}}>
         {searchType === 'movie' &&

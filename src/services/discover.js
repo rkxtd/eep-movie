@@ -63,7 +63,6 @@ export const SearchMovieSource = (apiKey, searchTerm, page = 1) => {
 }
 
 export const SearchPersonSource = (apiKey, searchTerm, page = 1) => {
-  console.log(searchTerm);
   return decoratedFromFetch(`https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${searchTerm}&language=en-US&page=${page}`)
     .pipe(map(({
                  total_results: resultsCount,
@@ -71,11 +70,13 @@ export const SearchPersonSource = (apiKey, searchTerm, page = 1) => {
                  total_pages: pagesCount,
                }) => ({
       resultsCount,
-      movies: results.map(person => ({
+      persons: results.map(person => ({
         ...person,
         profile_path: person.profile_path
           ? `https://image.tmdb.org/t/p/w500${person.profile_path}`
-          : `https://secondchancetinyhomes.org/wp-content/uploads/2016/09/empty-profile.png`})
+          : `https://secondchancetinyhomes.org/wp-content/uploads/2016/09/empty-profile.png`,
+          known_for: person.known_for || [],
+        })
       ), pagesCount})));
 }
 
