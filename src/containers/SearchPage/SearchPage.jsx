@@ -76,7 +76,6 @@ export default class SearchPage extends Component {
   render() {
     const {results, genres, resultsCount } = this.state;
     const { match: { params: { searchType }}} = this.props;
-    console.log('Update: ', searchType, results);
     return (
       <div style={{minWidth: 360, marginTop: 70}}>
         {searchType === 'movie' &&

@@ -61,7 +61,7 @@ export default class HomePage extends Component {
       <div style={{minWidth: 360}}>
 
         <AppBar position="static" color="default">
-          <Toolbar style={{display: 'flex', justifyContent: 'space-between', alignContent: 'stretch', flexWrap: 'wrap'}}>
+          <Toolbar style={{display: 'flex', justifyContent: 'space-between', alignContent: 'stretch', flexWrap: 'wrap', marginTop: 60}}>
             <Typography variant="h6" color="inherit">
               Results: {resultsCount}
             </Typography>

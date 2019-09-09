@@ -102,7 +102,7 @@ class PrimarySearchAppBar extends Component {
                                 <SearchIcon />
                             </div>
                             <InputBase
-                                placeholder="Search for a movie…"
+                                placeholder="Search for a person or movie…"
                                 classes={{
                                     root: classes.inputRoot,
                                     input: classes.inputInput,
