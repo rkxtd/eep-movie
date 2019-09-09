@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const serverHealth = require('server-health');
 const corsMiddleware = require('restify-cors-middleware');
 dotenv.config();
-const { MDB_API_KEY, API_PORT, ENV } = process.env;
+const { MDB_API_KEY, PORT, API_PORT, ENV } = process.env;
 const server = restify.createServer();
 const cors = corsMiddleware({
     preflightMaxAge: 5, //Optional
@@ -28,4 +28,4 @@ if (ENV !== 'dev') {
     }));
 }
 
-server.listen(API_PORT, () => console.log('%s listening at %s', server.name, server.url));
+server.listen(PORT || API_PORT, () => console.log('%s listening at %s', server.name, server.url));
