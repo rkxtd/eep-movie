@@ -81,5 +81,6 @@ export const SearchPersonSource = (apiKey, searchTerm, page = 1) => {
 }
 
 export const ApiKeySource = () => {
-  return decoratedFromFetch(`${config.apiUrl}/api/get-mdb-api-key`);
+  const apiHost = window.location.hostname === 'localhost' ? config.devApiUrl : config.prodApiUrl;
+  return decoratedFromFetch(`${apiHost}/api/get-mdb-api-key`);
 }

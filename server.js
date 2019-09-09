@@ -22,7 +22,7 @@ const respond = (req, res, next) => {
 
 server.get('/api/get-mdb-api-key', respond);
 if (ENV !== 'dev') {
-    server.get('/*', restify.plugins.serveStatic({
+    server.get('*', restify.plugins.serveStatic({
         directory: './dist/public/',
         default: 'index.html'
     }));
